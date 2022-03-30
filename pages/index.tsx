@@ -1,10 +1,11 @@
+import { Typography } from '@mui/material'
 import type { NextPage } from 'next'
 
 const Home: NextPage = () => {
   return (
-    <h1>
-      olovrgo
-    </h1>
+    <Typography variant='h1' color='primary'>
+      holoo
+    </Typography>
   )
 }
 
