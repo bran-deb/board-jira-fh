@@ -13,19 +13,19 @@ const Home: NextPage = () => {
           <Card sx={{ height: 'calc(100vh - 100px)' }}>
             <CardHeader title="Pendientes" />
             {/*TODO: agregar una nueva entrada */}
-            <EntryList />
+            <EntryList status='pending' />
           </Card>
         </Grid>
         <Grid item xs={12} sm={4}>
           <Card sx={{ height: 'calc(100vh - 100px)' }}>
             <CardHeader title="Pendientes" />
-            <EntryList />
+            <EntryList status='in-progress' />
           </Card>
         </Grid>
         <Grid item xs={12} sm={4}>
           <Card sx={{ height: 'calc(100vh - 100px)' }}>
             <CardHeader title="Pendientes" />
-            <EntryList />
+            <EntryList status='finished' />
           </Card>
         </Grid>
       </Grid>
