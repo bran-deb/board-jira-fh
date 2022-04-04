@@ -4,10 +4,12 @@ import { UIContext, uiReducer } from './';
 
 export interface UIstate {
     sidemenuOpen: boolean;
+    isAddingEntry: boolean;
 }
 
 const UI_INITIAL_STATE: UIstate = {
     sidemenuOpen: false,
+    isAddingEntry: false,
 }
 
 export const UIProvider: FC = ({ children }) => {
@@ -20,6 +22,10 @@ export const UIProvider: FC = ({ children }) => {
     const closeSideMenu = () => {
         dispatch({ type: 'UI - Close Sidebar' })
     }
+    const setIsAddingEntry = (isAdding: boolean) => {
+        dispatch({ type: 'UI - isAddingEntry', payload: isAdding })
+    }
+
 
     // cuando el state de un hook cambia se renderiza(state.sidemenuOpen)
     return (
@@ -29,6 +35,8 @@ export const UIProvider: FC = ({ children }) => {
                 // sidemenuOpen: state.sidemenuOpen equivalente
                 openSideMenu,
                 closeSideMenu,
+                //stateEntry
+                setIsAddingEntry,
             }
         }>
             {children}
