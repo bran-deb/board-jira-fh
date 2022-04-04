@@ -21,12 +21,14 @@ const Home: NextPage = () => {
         <Grid item xs={12} sm={4}>
           <Card sx={{ height: 'calc(100vh - 100px)' }}>
             <CardHeader title="Pendientes" />
+            <NewEntry />
             <EntryList status='in-progress' />
           </Card>
         </Grid>
         <Grid item xs={12} sm={4}>
           <Card sx={{ height: 'calc(100vh - 100px)' }}>
             <CardHeader title="Pendientes" />
+            <NewEntry />
             <EntryList status='finished' />
           </Card>
         </Grid>
