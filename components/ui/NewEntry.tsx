@@ -1,11 +1,14 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useContext } from 'react';
 import { Box, Button, TextField } from "@mui/material";
 
 import SaveIcon from '@mui/icons-material/SaveAsOutlined';
 import AddIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import { EntriesContext } from '../../context/entries/EntriesContext';
 
 
 export const NewEntry = () => {
+
+    const { addNewEntry } = useContext(EntriesContext);
 
     const [isAdding, setIsAdding] = useState(false);
     const [inputValue, setInputValue] = useState('');
@@ -18,6 +21,13 @@ export const NewEntry = () => {
     const onSave = () => {
         if (inputValue.length === 0) return
         setIsAdding(false)
+        setTouched(false)
+        setInputValue('')
+        addNewEntry(inputValue)
+    }
+    const undo = () => {
+        setIsAdding(false)
+        setTouched(false)
     }
 
 
@@ -43,7 +53,7 @@ export const NewEntry = () => {
                             />
 
                             <Box display={'flex'} justifyContent={'space-between'} margin={.5}>
-                                <Button onClick={() => { setIsAdding(false) }} variant="text">
+                                <Button onClick={undo} variant="text">
                                     Cancelar
                                 </Button>
 
