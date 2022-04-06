@@ -10,6 +10,19 @@ npm run dev
 yarn dev
 ```
 
+to run locally you need the database
+
+```
+docker-compose up -d
+```
+
+* -d for __detached__
+
+* connect to database MongoDB URL Local:
+```
+mongodb://localhost:27017/entriesdb
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
