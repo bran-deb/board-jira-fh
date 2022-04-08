@@ -11,7 +11,7 @@ interface SeedData {
 }
 
 //insert data on mongodb
-export const seetData: SeedData = {
+export const seedData: SeedData = {
     entries: [
         {
             description: 'pending: Ut ut Lorem adipisicing irure esse amet sunt aliqua dolore deserunt sint cupidatat eu.',
