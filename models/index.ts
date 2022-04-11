@@ -1,1 +1,2 @@
-export { default as Entry } from './Entry';
+//para los interfaces se usa type
+export { default as Entry, type IEntry } from './Entry';
