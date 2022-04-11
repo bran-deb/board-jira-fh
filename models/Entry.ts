@@ -13,7 +13,8 @@ const entrySchema = new Schema({
         enum: {
             values: ['pending', 'in-progress', 'finished'],
             message: '{VALUE} no es un estado permitido'
-        }
+        },
+        default: 'pending'
     }
 })
 //la primera vez que se ejecuta no tiene ningun valor y el model se llama ('Entry',) y se agrega el schema
