@@ -16,7 +16,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
     const { id } = req.query
     //verifica si el id es uno valido en la db
     if (!mongoose.isValidObjectId(id)) {
-        return res.status(400).json({ message: 'El id no es valido' + id })
+        return res.status(400).json({ message: 'El id no es valido ' + id })
     }
 
     switch (req.method) {
@@ -38,17 +38,32 @@ const updateEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
         await db.disconnect()
         return res.status(400).json({ message: 'No hay entrada con ese ID:' + id })
     }
-    //variables que se actualizan en entrada
+    //variables que se actualizan en entrada y si no se manda se mantienen valores por defecto
     const {
         description = entryToUpdate.description,
         status = entryToUpdate.status,
     } = req.body
 
     // runValidators verifica que el estado es uno permitido
-    const updatedEntry = await Entry.findByIdAndUpdate(id,
-        { description, status },
-        { runValidators: true, new: true }
-    )
-    //le aseguramos que siempre tendra un valor !
-    res.status(200).json(updatedEntry!)
+    try {
+        //entrada actualizada y verificada// hace otra consulta a la db por id(findByIdAndUpdate)
+        const updatedEntry = await Entry.findByIdAndUpdate(
+            id,
+            { description, status },
+            { runValidators: true, new: true }
+        )
+        await db.disconnect()
+        //le aseguramos que siempre tendra un valor !
+        res.status(200).json(updatedEntry!)
+        //tambien se actualiza de la sig forma
+        // entryToUpdate.description = description
+        // entryToUpdate.status = status
+        // await entryToUpdate.save()
+
+
+    } catch (error: any) {
+        console.log(error);
+        await db.disconnect()
+        res.status(400).json({ message: error.message });
+    }
 }

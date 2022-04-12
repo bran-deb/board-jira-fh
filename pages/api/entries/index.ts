@@ -35,7 +35,7 @@ const getEntries = async (res: NextApiResponse<Data>) => {
 const postEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     const { description = '' } = req.body
-
+    //defaultProps defined
     const newEntry = new Entry({
         description,
         createAt: Date.now(),
