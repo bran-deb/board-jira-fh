@@ -29,8 +29,15 @@ export const EntriesProvider: FC = ({ children }) => {
         dispatch({ type: '[Entry] - Add-Entry', payload: data })
     }
 
-    const updateEntry = (entry: Entry) => {
-        dispatch({ type: '[Entry] - entry-updated', payload: entry })
+    const updateEntry = async (entry: Entry) => {
+        const { _id, description, status } = entry
+        try {
+            const { data } = await entriesApi.put<Entry>(`/entries/${_id}`, { description, status })
+            dispatch({ type: '[Entry] - entry-updated', payload: data })
+
+        } catch (error) {
+            console.log({ error });
+        }
     }
 
     const refreshEntries = async () => {
