@@ -56,8 +56,4 @@ const postEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
             message: "algo salio mal, revisar consola del servidor"
         })
     }
-
-    res.status(201).json({
-        message: 'POST'
-    })
 }
