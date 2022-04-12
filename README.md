@@ -23,6 +23,14 @@ docker-compose up -d
 mongodb://localhost:27017/entriesdb
 ```
 
+## Configurar las variables de entorno
+renombrar el archivo __.env.development.template__ a __.env__
+
+##llenar la base de datos con informacion de pruebas
+```
+http://localhost:3000/api/seed
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
