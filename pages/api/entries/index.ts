@@ -23,9 +23,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 
 const getEntries = async (res: NextApiResponse<Data>) => {
     //obtiene todos los modelos ordenados ascendentemente
-    await db.connect
+    await db.connect()
     const entries = await Entry.find().sort({ createdAt: 'ascending' })
-    await db.disconnect
+    await db.disconnect()
 
     res.status(200).json(
         entries
