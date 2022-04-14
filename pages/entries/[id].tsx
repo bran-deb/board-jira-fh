@@ -1,3 +1,4 @@
+import { ChangeEvent, useState, useMemo } from 'react';
 import { Button, capitalize, Card, CardActions, CardContent, CardHeader, FormControl, FormControlLabel, FormLabel, Grid, IconButton, Radio, RadioGroup, TextField } from "@mui/material"
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -10,6 +11,26 @@ const validStatus: EntryStatus[] = ['pending', 'in-progress', 'finished']
 
 
 const EntryPage = () => {
+
+    const [inputValue, setInputValue] = useState('');
+    const [status, setStatus] = useState<EntryStatus>('pending');
+    const [touched, setTouched] = useState(false);
+    //cambia cuando sus dependencias cambian
+    const isNotValid = useMemo(() => inputValue.length === 0 && touched, [inputValue, touched]);
+
+
+    const onInputValueChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value)
+    }
+    const onStatusChanged = (e: ChangeEvent<HTMLInputElement>) => {
+        setStatus(e.target.value as EntryStatus);
+    }
+    const onSave = () => {
+        setTouched(false)
+        console.log({ inputValue, status });
+    }
+
+
     return (
         <Layout title='......'>
             <Grid
@@ -20,7 +41,7 @@ const EntryPage = () => {
                 <Grid item xs={12} sm={8} md={6}>
                     <Card>
                         <CardHeader
-                            title='Entrada:'
+                            title={`Entrada: ${inputValue}`}
                             subheader={`Creada hace: ... minutos`}
                         />
 
@@ -31,12 +52,20 @@ const EntryPage = () => {
                                 autoFocus
                                 multiline
                                 label="Nueva entrada"
+                                helperText={isNotValid && 'Ingrese un valor'}
+                                error={isNotValid}
+                                onBlur={() => setTouched(true)}     //lose focus
+                                // onFocus={() => setTouched(true)}
+                                value={inputValue}
+                                onChange={onInputValueChanged}
                             />
 
                             <FormControl>
                                 <FormLabel>Estado:</FormLabel>
                                 <RadioGroup
                                     row={true}
+                                    value={status}
+                                    onChange={onStatusChanged}
                                 >
                                     {
                                         validStatus.map(option => (
@@ -57,6 +86,8 @@ const EntryPage = () => {
                                 startIcon={<SaveOutlinedIcon />}
                                 variant="contained"
                                 fullWidth
+                                onClick={onSave}
+                                disabled={!inputValue}
                             >
                                 save
                             </Button>
