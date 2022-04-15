@@ -1,5 +1,6 @@
-import { ChangeEvent, useState, useMemo, FC } from 'react';
+import { ChangeEvent, useState, useMemo, FC, useContext } from 'react';
 import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router';
 import { Button, capitalize, Card, CardActions, CardContent, CardHeader, FormControl, FormControlLabel, FormLabel, Grid, IconButton, Radio, RadioGroup, TextField } from "@mui/material"
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -7,6 +8,7 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { Layout } from "../../components/layouts"
 import { dbEntries } from '../../database';
 import { Entry, EntryStatus } from '../../interfaces';
+import { EntriesContext } from '../../context/entries/EntriesContext';
 
 
 const validStatus: EntryStatus[] = ['pending', 'in-progress', 'finished']
@@ -17,6 +19,9 @@ interface Props {
 
 
 const EntryPage: FC<Props> = ({ entry }) => {
+
+    const { updateEntry } = useContext(EntriesContext);
+    const router = useRouter()
 
 
     const [inputValue, setInputValue] = useState(entry.description);
@@ -33,8 +38,14 @@ const EntryPage: FC<Props> = ({ entry }) => {
         setStatus(e.target.value as EntryStatus);
     }
     const onSave = () => {
-        setTouched(false)
-        console.log({ inputValue, status });
+        if (inputValue.length === 0) return;
+        const updatedEntry: Entry = {
+            ...entry,
+            description: inputValue,
+            status
+        }
+        updateEntry(updatedEntry, true)
+        router.push('/')
     }
 
 
