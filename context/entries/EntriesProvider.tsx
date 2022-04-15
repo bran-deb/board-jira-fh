@@ -31,6 +31,15 @@ export const EntriesProvider: FC = ({ children }) => {
         //     status: "pending"
         // }
         dispatch({ type: '[Entry] - Add-Entry', payload: data })
+        //NOTE: mostrar snakbar
+        enqueueSnackbar('Tarea agregada', {
+            variant: 'success',
+            autoHideDuration: 1500,
+            anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'right'
+            }
+        })
     }
 
     const updateEntry = async (entry: Entry, showSnackbar = false) => {
@@ -41,7 +50,27 @@ export const EntriesProvider: FC = ({ children }) => {
             //NOTE: mostrar snakbar
             if (showSnackbar)
                 enqueueSnackbar('Entrada actualizada', {
-                    variant: 'success',
+                    variant: 'info',
+                    autoHideDuration: 1500,
+                    anchorOrigin: {
+                        vertical: 'top',
+                        horizontal: 'right'
+                    }
+                })
+        } catch (error) {
+            console.log({ error });
+        }
+    }
+
+    const deleteEntry = async (entry: Entry, showSnackbar = false) => {
+        try {
+            const { data } = await entriesApi.delete<Entry>(`/entries/${entry._id}`)
+            dispatch({ type: '[Entry] - entry-deleted', payload: data })
+            refreshEntries()
+            //NOTE: mostrar snakbar
+            if (showSnackbar)
+                enqueueSnackbar('Entrada Eliminada', {
+                    variant: 'error',
                     autoHideDuration: 1500,
                     anchorOrigin: {
                         vertical: 'top',
@@ -70,6 +99,7 @@ export const EntriesProvider: FC = ({ children }) => {
 
             addNewEntry,
             updateEntry,
+            deleteEntry,
         }}>
             {children}
         </EntriesContext.Provider>

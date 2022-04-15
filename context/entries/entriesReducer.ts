@@ -6,6 +6,7 @@ import { Entry } from '../../interfaces';
 type EntriesActionType =
     | { type: '[Entry] - Add-Entry', payload: Entry }
     | { type: '[Entry] - entry-updated', payload: Entry }
+    | { type: '[Entry] - entry-deleted', payload: Entry }
     | { type: '[Entry] - Refresh-Data', payload: Entry[] }
 
 
@@ -27,6 +28,10 @@ export const entriesReducer = (state: EntriesState, action: EntriesActionType): 
                     }
                     return entry
                 })
+            }
+        case '[Entry] - entry-deleted':
+            return {
+                ...state, entries: state.entries.filter(entry => entry._id !== action.payload._id)
             }
         case '[Entry] - Refresh-Data':
             return {
