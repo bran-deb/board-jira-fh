@@ -5,7 +5,7 @@ import { Card, CardActionArea, CardActions, CardContent, Typography } from "@mui
 
 import { Entry } from "../../interfaces";
 import { UIContext } from '../../context';
-
+import { dateFunction } from '../../utilities';
 interface Props {
     entry: Entry
 }
@@ -47,7 +47,7 @@ export const EntryCard: FC<Props> = ({ entry }) => {
                 </CardContent>
 
                 <CardActions sx={{ display: 'flex', justifyContent: 'end', paddingRight: 2 }}>
-                    <Typography variant='body2'>hace 30 minutos</Typography>
+                    <Typography variant='body2'>{dateFunction.getFormatDistanceToNow(entry.createAt)}</Typography>
                 </CardActions>
             </CardActionArea>
         </Card>
