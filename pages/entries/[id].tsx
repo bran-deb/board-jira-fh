@@ -5,14 +5,14 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import DeleteIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 import { Layout } from "../../components/layouts"
-import { EntryStatus } from '../../interfaces';
-import { isValidObjectId } from 'mongoose';
+import { dbEntries } from '../../database';
+import { Entry, EntryStatus } from '../../interfaces';
 
 
 const validStatus: EntryStatus[] = ['pending', 'in-progress', 'finished']
 
 interface Props {
-
+    entry: Entry
 }
 
 
@@ -120,9 +120,12 @@ const EntryPage: FC<Props> = (props) => {
 // - Only if you need to pre-render a page whose data must be fetched at request time
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const { id } = params as { id: string }//obtiene id page serverside
-    //NOTE: verifica si el id no es valido para no renderizar una pagina con id invalido
-    //no retorna el id de la pagina, retorna redirect
-    if (!isValidObjectId(id)) {
+
+    const entry = await dbEntries.getEntryById(id)
+
+    //NOTE: verifica si el entry.id no es valido para no renderizar una pagina con id invalido
+    //no retorna el entry de la pagina, retorna redirect
+    if (!entry) {
         return {
             redirect: {
                 destination: '/',
@@ -133,7 +136,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     return {
         props: {
-            id
+            entry: entry.createAt //no retorna id
         }
     }
 }
